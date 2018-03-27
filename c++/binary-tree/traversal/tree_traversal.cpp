@@ -5,7 +5,7 @@
 
 using namespace std;
 
-vector<int> in_order_traversal(TreeNode* root)
+vector<int> inorder_traversal(TreeNode* root)
 {
     vector<int> node_vals;
     stack<TreeNode*> node_stack;
@@ -37,7 +37,7 @@ vector<int> in_order_traversal(TreeNode* root)
     return node_vals;
 }
 
-vector<int> pre_order_traversal(TreeNode* root)
+vector<int> preorder_traversal(TreeNode* root)
 {
     vector<int> node_vals;
     stack<TreeNode*> node_stack;
@@ -58,7 +58,7 @@ vector<int> pre_order_traversal(TreeNode* root)
     return node_vals;
 }
 
-vector<int> post_order_traversal(TreeNode* root)
+vector<int> postorder_traversal(TreeNode* root)
 {
     vector<int> node_vals;
     stack<TreeNode*> node_stack;
@@ -104,7 +104,8 @@ vector<int> post_order_traversal(TreeNode* root)
     return node_vals;
 }
 
-vector<vector<int>> level_order_traversal(TreeNode* root)
+
+void level_order_traversal(TreeNode* root)
 {
     vector<vector<int>> node_vals;
     queue<TreeNode*> node_queue;
@@ -132,6 +133,82 @@ vector<vector<int>> level_order_traversal(TreeNode* root)
         }
 
         node_vals.push_back(lvl_vals);
+    }
+
+//    return node_vals;
+}
+
+vector<int> morris_inorder_traversal(TreeNode* root)
+{
+    vector<int> node_vals;
+
+    if (!root)
+        return node_vals;
+
+    TreeNode* curr = root;
+    while (curr != nullptr)
+    {
+        if (curr->left == nullptr)
+        {
+            node_vals.push_back(curr->val);
+            curr = curr->right;
+        }
+        else
+        {
+            TreeNode* predecessor = curr->left;
+            while (predecessor->right != nullptr && predecessor->right != curr)
+                predecessor = predecessor->right;
+
+            if (predecessor->right == nullptr)
+            {
+                predecessor->right = curr;
+                curr = curr->left;
+            }
+            else
+            {
+                node_vals.push_back(curr->val);
+                predecessor->right = nullptr;
+                curr = curr->right;
+            }
+        }
+    }
+
+    return node_vals;
+}
+
+vector<int> morris_preorder_traversal(TreeNode* root)
+{
+    vector<int> node_vals;
+
+    if (!root)
+        return node_vals;
+
+    TreeNode* curr = root;
+    while (curr)
+    {
+        if (curr->left == nullptr)
+        {
+            node_vals.push_back(curr->val);
+            curr = curr->right;
+        }
+        else
+        {
+            TreeNode* predecessor = curr->left;
+            while (predecessor->right && predecessor->right != curr)
+                predecessor = predecessor->right;
+
+            if (predecessor->right == curr)
+            {
+                predecessor->right = nullptr;
+                curr = curr->right;
+            }
+            else
+            {
+                node_vals.push_back(curr->val);
+                predecessor->right = curr;
+                curr = curr->left;
+            }
+        }
     }
 
     return node_vals;

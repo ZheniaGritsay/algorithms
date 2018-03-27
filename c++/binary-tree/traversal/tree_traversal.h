@@ -6,17 +6,17 @@
 struct TreeNode;
 
 
-std::vector<int> in_order_traversal(TreeNode* root);
+std::vector<int> inorder_traversal(TreeNode* root);
 
-std::vector<int> pre_order_traversal(TreeNode* root);
+std::vector<int> preorder_traversal(TreeNode* root);
 
-std::vector<int> post_order_traversal(TreeNode* root);
+std::vector<int> postorder_traversal(TreeNode* root);
 
-template <typename vector>
-std::vector<vector<int>> level_order_traversal(TreeNode* root);
+// TODO: make return type vector<vector<int>>
+void level_order_traversal(TreeNode* root);
 
-std::vector<int> morris_in_order_traversal(TreeNode* root);
+std::vector<int> morris_inorder_traversal(TreeNode* root);
 
-std::vector<int> morris_pre_order_traversal(TreeNode* root);
+std::vector<int> morris_preorder_traversal(TreeNode* root);
 
 #endif //C_TREE_TRAVERSAL_H
