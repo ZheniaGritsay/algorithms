@@ -3,14 +3,13 @@
 #include "../construct/tree_construct.h"
 #include <queue>
 #include <sstream>
-#include <iostream>
 
-void populate_next_right_pointer(TreeLinkNode *root)
+void populate_next_right_pointer(TreeLinkNode* root)
 {
     if (!root)
         return;
 
-    std::queue<TreeLinkNode *> node_queue;
+    std::queue<TreeLinkNode*> node_queue;
     node_queue.push(root);
     while (1) {
         size_t node_count = node_queue.size();
@@ -18,7 +17,7 @@ void populate_next_right_pointer(TreeLinkNode *root)
             break;
         int supplement = 0;
         while (node_count > 0 && supplement < 4) {
-            TreeLinkNode *link_node = node_queue.front();
+            TreeLinkNode* link_node = node_queue.front();
             node_queue.pop();
 
             if (node_count > 1)
@@ -48,14 +47,14 @@ std::vector<std::string> split(std::string line, char delimiter)
     return splitted;
 }
 
-TreeNode *lvl_order_deser(std::vector<std::string> vals, TreeNode *root, int i, int n)
+TreeNode* lvl_order_deser(std::vector<std::string> vals, TreeNode* root, int i, int n)
 {
     if (i < n)
     {
         std::string s = vals[i];
         int v = std::stoi(s);
 
-        TreeNode *tmp = new TreeNode(v);
+        TreeNode* tmp = new TreeNode(v);
         root = tmp;
 
         TreeNode* left_node = nullptr;
@@ -79,10 +78,10 @@ TreeNode *lvl_order_deser(std::vector<std::string> vals, TreeNode *root, int i, 
     return root;
 }
 
-std::string lvl_order_ser(TreeNode *root)
+std::string lvl_order_ser(TreeNode* root)
 {
     std::vector<std::string> node_vals;
-    std::queue<TreeNode *> node_queue;
+    std::queue<TreeNode*> node_queue;
     node_queue.push(root);
 
     while (1)
@@ -93,7 +92,7 @@ std::string lvl_order_ser(TreeNode *root)
 
         for (;node_count > 0; --node_count)
         {
-            TreeNode *curr = node_queue.front();
+            TreeNode* curr = node_queue.front();
             node_queue.pop();
 
             if (curr)
@@ -111,10 +110,13 @@ std::string lvl_order_ser(TreeNode *root)
 
     std::string serialized = "[";
 
-    for (auto it = node_vals.begin(); it != (node_vals.end() - 4); it++)
+    while (node_vals.back() == "null")
+        node_vals.pop_back();
+
+    for (auto it = node_vals.begin(); it != node_vals.end(); it++)
     {
         serialized += (*it);
-        if (it != (node_vals.end() - 5))
+        if (it != node_vals.end() - 1)
             serialized += ",";
     }
 
@@ -123,7 +125,7 @@ std::string lvl_order_ser(TreeNode *root)
     return serialized;
 }
 
-std::string serialize(TreeNode *root)
+std::string serialize(TreeNode* root)
 {
     if (root == nullptr)
         return "[]";
@@ -131,13 +133,13 @@ std::string serialize(TreeNode *root)
     return lvl_order_ser(root);
 }
 
-TreeNode *deserialize(std::string data)
+TreeNode* deserialize(std::string data)
 {
-    if (data.size() == 0)
+    if (data.length() == 2)
         return nullptr;
 
     std::vector<std::string> splitted = split(data.substr(1, data.length() - 2), ',');
-    TreeNode *root = lvl_order_deser(splitted, root, 0, splitted.size());
+    TreeNode* root = lvl_order_deser(splitted, root, 0, splitted.size());
 
     return root;
 }

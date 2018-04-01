@@ -5,11 +5,11 @@
 
 using namespace std;
 
-vector<int> inorder_traversal(TreeNode *root)
+vector<int> inorder_traversal(TreeNode* root)
 {
     vector<int> node_vals;
-    stack<TreeNode *> node_stack;
-    TreeNode *curr = root;
+    stack<TreeNode*> node_stack;
+    TreeNode* curr = root;
     bool done = false;
 
     while (!done) {
@@ -18,7 +18,7 @@ vector<int> inorder_traversal(TreeNode *root)
             curr = curr->left;
         } else {
             if (!node_stack.empty()) {
-                TreeNode *top = node_stack.top();
+                TreeNode* top = node_stack.top();
                 node_stack.pop();
                 node_vals.push_back(top->val);
                 curr = top->right;
@@ -31,14 +31,14 @@ vector<int> inorder_traversal(TreeNode *root)
     return node_vals;
 }
 
-vector<int> preorder_traversal(TreeNode *root)
+vector<int> preorder_traversal(TreeNode* root)
 {
     vector<int> node_vals;
-    stack<TreeNode *> node_stack;
+    stack<TreeNode*> node_stack;
     node_stack.push(root);
 
     while (!node_stack.empty()) {
-        TreeNode *top = node_stack.top();
+        TreeNode* top = node_stack.top();
         node_stack.pop();
         node_vals.push_back(top->val);
 
@@ -51,11 +51,11 @@ vector<int> preorder_traversal(TreeNode *root)
     return node_vals;
 }
 
-vector<int> postorder_traversal(TreeNode *root)
+vector<int> postorder_traversal(TreeNode* root)
 {
     vector<int> node_vals;
-    stack<TreeNode *> node_stack;
-    TreeNode *curr = root;
+    stack<TreeNode*> node_stack;
+    TreeNode* curr = root;
     bool done = false;
 
     while (!done) {
@@ -68,10 +68,10 @@ vector<int> postorder_traversal(TreeNode *root)
             curr = curr->left;
         } else {
             if (!node_stack.empty()) {
-                TreeNode *top = node_stack.top();
+                TreeNode* top = node_stack.top();
                 node_stack.pop();
                 if (top->right && !node_stack.empty() && top->right == node_stack.top()) {
-                    TreeNode *right_child = node_stack.top();
+                    TreeNode* right_child = node_stack.top();
                     node_stack.pop();
                     node_stack.push(top);
                     curr = right_child;
@@ -89,10 +89,10 @@ vector<int> postorder_traversal(TreeNode *root)
 }
 
 
-void level_order_traversal(TreeNode *root)
+void level_order_traversal(TreeNode* root)
 {
     vector<vector<int>> node_vals;
-    queue<TreeNode *> node_queue;
+    queue<TreeNode*> node_queue;
     node_queue.push(root);
 
     while (1) {
@@ -102,7 +102,7 @@ void level_order_traversal(TreeNode *root)
 
         vector<int> lvl_vals;
         while (node_count > 0) {
-            TreeNode *node = node_queue.front();
+            TreeNode* node = node_queue.front();
             node_queue.pop();
             lvl_vals.push_back(node->val);
 
@@ -120,20 +120,20 @@ void level_order_traversal(TreeNode *root)
 //    return node_vals;
 }
 
-vector<int> morris_inorder_traversal(TreeNode *root)
+vector<int> morris_inorder_traversal(TreeNode* root)
 {
     vector<int> node_vals;
 
     if (!root)
         return node_vals;
 
-    TreeNode *curr = root;
+    TreeNode* curr = root;
     while (curr != nullptr) {
         if (curr->left == nullptr) {
             node_vals.push_back(curr->val);
             curr = curr->right;
         } else {
-            TreeNode *predecessor = curr->left;
+            TreeNode* predecessor = curr->left;
             while (predecessor->right != nullptr && predecessor->right != curr)
                 predecessor = predecessor->right;
 
@@ -151,20 +151,20 @@ vector<int> morris_inorder_traversal(TreeNode *root)
     return node_vals;
 }
 
-vector<int> morris_preorder_traversal(TreeNode *root)
+vector<int> morris_preorder_traversal(TreeNode* root)
 {
     vector<int> node_vals;
 
     if (!root)
         return node_vals;
 
-    TreeNode *curr = root;
+    TreeNode* curr = root;
     while (curr) {
         if (curr->left == nullptr) {
             node_vals.push_back(curr->val);
             curr = curr->right;
         } else {
-            TreeNode *predecessor = curr->left;
+            TreeNode* predecessor = curr->left;
             while (predecessor->right && predecessor->right != curr)
                 predecessor = predecessor->right;
 
