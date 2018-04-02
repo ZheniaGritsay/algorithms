@@ -1,6 +1,6 @@
+#include "tree_traversal.h"
 #include <stack>
 #include <queue>
-#include "tree_traversal.h"
 #include "../binary_tree.h"
 
 using namespace std;

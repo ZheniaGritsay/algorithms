@@ -18,4 +18,6 @@ std::string serialize(TreeNode* root);
 
 TreeNode* deserialize(std::string data);
 
+std::vector<std::string> split(std::string line, char delimiter);
+
 #endif //C_OTHER_H

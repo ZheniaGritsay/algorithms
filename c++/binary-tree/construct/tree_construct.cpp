@@ -1,7 +1,5 @@
-#include <queue>
-#include <climits>
-
 #include "tree_construct.h"
+#include <queue>
 #include "../binary_tree.h"
 
 typedef std::vector<int>::iterator vec_it;
@@ -59,7 +57,6 @@ TreeNode* construct_from_preorder_inorder(std::vector<int>& inorder, std::vector
     return node;
 }
 
-// FIXME
 TreeLinkNode* construct_level_order(int arr[], TreeLinkNode* root, int i, int n)
 {
     if (i < n) {
@@ -68,58 +65,6 @@ TreeLinkNode* construct_level_order(int arr[], TreeLinkNode* root, int i, int n)
 
         root->left = construct_level_order(arr, root->left, i * 2 + 1, n);
         root->right = construct_level_order(arr, root->right, i * 2 + 2, n);
-    }
-
-    return root;
-}
-
-TreeNode* ser_level_order(int arr[], int n)
-{
-    if (n == 0)
-        return NULL;
-
-    TreeNode* root;
-
-    std::queue<NodeDetails> q;
-
-    int i = 0;
-
-    NodeDetails newNode;
-    newNode.ptr = new TreeNode(arr[i++]);
-    newNode.min = INT_MIN;
-    newNode.max = INT_MAX;
-    q.push(newNode);
-
-    root = newNode.ptr;
-
-    // 5, 2, 3, 2, 4, 3, 1
-
-    while (i != n)
-    {
-        NodeDetails temp = q.front();
-        q.pop();
-
-        if (i < n && (arr[i] < temp.ptr->val &&
-                      arr[i] > temp.min))
-        {
-            newNode.ptr = new TreeNode(arr[i++]);
-            newNode.min = temp.min;
-            newNode.max = temp.ptr->val;
-            q.push(newNode);
-
-            temp.ptr->left = newNode.ptr;
-        }
-
-        if (i < n && (arr[i] > temp.ptr->val &&
-                      arr[i] < temp.max))
-        {
-            newNode.ptr = new TreeNode(arr[i++]);
-            newNode.min = temp.ptr->val;
-            newNode.max = temp.max;
-            q.push(newNode);
-
-            temp.ptr->right = newNode.ptr;
-        }
     }
 
     return root;

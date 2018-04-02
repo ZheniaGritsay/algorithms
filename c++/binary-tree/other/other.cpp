@@ -1,8 +1,9 @@
 #include "other.h"
-#include "../binary_tree.h"
-#include "../construct/tree_construct.h"
 #include <queue>
 #include <sstream>
+#include "../binary_tree.h"
+#include "../construct/tree_construct.h"
+
 
 void populate_next_right_pointer(TreeLinkNode* root)
 {
@@ -33,53 +34,11 @@ void populate_next_right_pointer(TreeLinkNode* root)
     }
 }
 
-std::vector<std::string> split(std::string line, char delimiter)
+std::string serialize(TreeNode* root)
 {
-    std::vector<std::string> splitted;
+    if (root == nullptr)
+        return "[]";
 
-    std::stringstream str_s(line);
-    std::string str;
-    while (std::getline(str_s, str, delimiter))
-    {
-        splitted.push_back(str);
-    }
-
-    return splitted;
-}
-
-TreeNode* lvl_order_deser(std::vector<std::string> vals, TreeNode* root, int i, int n)
-{
-    if (i < n)
-    {
-        std::string s = vals[i];
-        int v = std::stoi(s);
-
-        TreeNode* tmp = new TreeNode(v);
-        root = tmp;
-
-        TreeNode* left_node = nullptr;
-        TreeNode* right_node = nullptr;
-        int ileft = i * 2 + 1;
-        int iright = ileft + 1;
-
-        if (ileft < n && vals[ileft] != "null")
-        {
-            left_node = lvl_order_deser(vals, root->left, ileft, n);
-        }
-        if (iright < n && vals[iright] != "null")
-        {
-            right_node = lvl_order_deser(vals, root->right, iright, n);
-        }
-
-        root->left = left_node;
-        root->right = right_node;
-    }
-
-    return root;
-}
-
-std::string lvl_order_ser(TreeNode* root)
-{
     std::vector<std::string> node_vals;
     std::queue<TreeNode*> node_queue;
     node_queue.push(root);
@@ -125,21 +84,52 @@ std::string lvl_order_ser(TreeNode* root)
     return serialized;
 }
 
-std::string serialize(TreeNode* root)
-{
-    if (root == nullptr)
-        return "[]";
-
-    return lvl_order_ser(root);
-}
-
 TreeNode* deserialize(std::string data)
 {
     if (data.length() == 2)
         return nullptr;
 
     std::vector<std::string> splitted = split(data.substr(1, data.length() - 2), ',');
-    TreeNode* root = lvl_order_deser(splitted, root, 0, splitted.size());
+
+    std::queue<TreeNode*> node_queue;
+    int v = std::stoi(splitted[0]);
+    TreeNode* root = new TreeNode(v);
+    node_queue.push(root);
+    for (int i = 1; i < splitted.size(); i += 2)
+    {
+        TreeNode* curr = node_queue.front();
+        node_queue.pop();
+
+        if (splitted[i] != "null")
+        {
+            v = std::stoi(splitted[i]);
+            TreeNode* left = new TreeNode(v);
+            curr->left = left;
+            node_queue.push(left);
+        }
+
+        if (i + 1 < splitted.size() && splitted[i + 1] != "null")
+        {
+            v = std::stoi(splitted[i + 1]);
+            TreeNode* right = new TreeNode(v);
+            curr->right = right;
+            node_queue.push(right);
+        }
+    }
 
     return root;
+}
+
+std::vector<std::string> split(std::string line, char delimiter)
+{
+    std::vector<std::string> splitted;
+
+    std::stringstream str_s(line);
+    std::string str;
+    while (std::getline(str_s, str, delimiter))
+    {
+        splitted.push_back(str);
+    }
+
+    return splitted;
 }
